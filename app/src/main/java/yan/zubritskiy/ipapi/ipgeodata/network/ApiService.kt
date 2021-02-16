@@ -4,6 +4,7 @@ import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
+import yan.zubritskiy.ipapi.ipgeodata.network.model.IpGeoData
 
 const val BASE_URL = "http://ip-api.com"
 private const val IP = "ip"

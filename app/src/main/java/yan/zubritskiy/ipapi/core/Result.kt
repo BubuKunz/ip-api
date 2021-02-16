@@ -17,4 +17,10 @@ sealed class Result<out R> {
     }
 }
 
+inline fun <T, R> Result<T>.mapOnSuccess(map: (T) -> R): Result<R> {
+    return if (this is Result.Success) {
+        Result.Success(this.data?.let { map(it) })
+    } else this as Result<R>
+}
+
 abstract class BaseError(message: String = "") : Throwable(message)

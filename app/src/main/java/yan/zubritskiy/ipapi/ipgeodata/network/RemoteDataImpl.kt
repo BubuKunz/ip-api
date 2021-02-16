@@ -4,6 +4,7 @@ import yan.zubritskiy.ipapi.core.Logger
 import yan.zubritskiy.ipapi.core.Result
 import yan.zubritskiy.ipapi.corenetwork.BaseNetworkDataSource
 import yan.zubritskiy.ipapi.corenetwork.NetworkConnectionManager
+import yan.zubritskiy.ipapi.ipgeodata.network.model.IpGeoData
 
 class RemoteDataImpl(
     private val api: ApiService,
