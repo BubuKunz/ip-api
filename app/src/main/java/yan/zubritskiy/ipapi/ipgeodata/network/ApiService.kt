@@ -1,4 +1,4 @@
-package yan.zubritskiy.ipapi.ipgeodata
+package yan.zubritskiy.ipapi.ipgeodata.network
 
 import retrofit2.Response
 import retrofit2.http.GET
@@ -11,5 +11,5 @@ private const val FIELDS = "fields"
 
 interface ApiService {
     @GET("/json/{$IP}}")
-    fun getGeoData(@Path(IP) ip: String, @Query(FIELDS) fields: List<String>?): Response<IpGeoData>
+    suspend fun getGeoData(@Path(IP) ip: String, @Query(FIELDS) fields: List<String>?): Response<IpGeoData>
 }

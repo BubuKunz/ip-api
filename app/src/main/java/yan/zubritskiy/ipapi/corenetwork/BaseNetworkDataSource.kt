@@ -14,7 +14,7 @@ import yan.zubritskiy.ipapi.corenetwork.HttpStatusCode.USAGE_LIMIT
 import java.net.SocketTimeoutException
 
 abstract class BaseNetworkDataSource(
-    val logger: Logger,
+    protected val logger: Logger,
     protected val networkConnectionManager: NetworkConnectionManager
 ) {
 

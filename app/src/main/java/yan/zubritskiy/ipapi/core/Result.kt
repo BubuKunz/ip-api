@@ -7,7 +7,7 @@ typealias ApiSuccess<T> = Result.Success<T>
 sealed class Result<out R> {
 
     data class Success<out R>(val data: R?) : Result<R>()
-    data class Error(val error: BaseError) : Result<Nothing>()
+    data class Error(val error: Throwable) : Result<Nothing>()
 
     override fun toString(): String {
         return when (this) {
@@ -16,7 +16,5 @@ sealed class Result<out R> {
         }
     }
 }
-
-
 
 abstract class BaseError(message: String = "") : Throwable(message)

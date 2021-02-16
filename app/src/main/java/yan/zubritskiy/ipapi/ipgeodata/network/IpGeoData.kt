@@ -1,4 +1,4 @@
-package yan.zubritskiy.ipapi.ipgeodata
+package yan.zubritskiy.ipapi.ipgeodata.network
 
 import com.squareup.moshi.Json
 
