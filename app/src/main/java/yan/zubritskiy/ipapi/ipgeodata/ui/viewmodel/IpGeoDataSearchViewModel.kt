@@ -26,10 +26,26 @@ class IpGeoDataSearchViewModel(
                 repository.getGeoData(ip)
                     .onSuccessNotNull {
                         withContext(Dispatchers.Main) {
-                            _geoDataFormatted.value = it
+                            _geoDataFormatted.value = it.asFormattedJson()
                         }
                     }
             }
         }
+    }
+
+    private fun Map<String, Any>.asFormattedJson(): String {
+        val builder = StringBuilder()
+        builder.append("{\n")
+        onEachIndexed { index, entry ->
+            builder.append("   \"${entry.key}\": ")
+            when (entry.value) {
+                is String -> builder.append("\"${entry.value}\"")
+                else -> builder.append("${entry.value}")
+            }
+            if (index != size - 1) builder.append(",\n")
+            else builder.append("\n")
+        }
+        builder.append("}")
+        return builder.toString()
     }
 }
