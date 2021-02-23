@@ -21,8 +21,6 @@ import yan.zubritskiy.ipapi.ipgeodata.network.RemoteDataImpl
 import yan.zubritskiy.ipapi.ipgeodata.repo.IpGeoDataRepository
 import yan.zubritskiy.ipapi.ipgeodata.repo.IpGeoDataRepositoryImpl
 import yan.zubritskiy.ipapi.ipgeodata.ui.viewmodel.IpGeoDataSearchViewModel
-import yan.zubritskiy.ipapi.ipgeodata.repo.mapper.GeoDataMapper as RepoMapper
-import yan.zubritskiy.ipapi.ipgeodata.ui.mapper.GeoDataMapper as UiMapper
 
 val coreUiModule = module {
     factory { (f: Fragment) -> MainFlowNavigator(f) }
@@ -60,10 +58,8 @@ val coreNetworkModule = module {
 val ipGeoDataModule = module {
     factory<ApiService> { createService() }
     factory<RemoteData> { RemoteDataImpl(get(), get(), get()) }
-    factory { RepoMapper() }
-    factory { UiMapper() }
-    single<IpGeoDataRepository> { IpGeoDataRepositoryImpl(get(), get()) }
-    viewModel { IpGeoDataSearchViewModel(get(), get()) }
+    single<IpGeoDataRepository> { IpGeoDataRepositoryImpl(get()) }
+    viewModel { IpGeoDataSearchViewModel(get()) }
 }
 
 private inline fun <reified T : Any> Scope.createService(): T {

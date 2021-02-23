@@ -37,7 +37,7 @@ class IpGeoDataSearchFragment : BaseFragment(R.layout.fragment_ip_geodata_search
     }
 
     override fun setupObservers() = with(viewModel) {
-        geoData.observe(viewLifecycleOwner) {
+        geoDataFormatted.observe(viewLifecycleOwner) {
             binding.resultText.text = it.regionName
         }
     }

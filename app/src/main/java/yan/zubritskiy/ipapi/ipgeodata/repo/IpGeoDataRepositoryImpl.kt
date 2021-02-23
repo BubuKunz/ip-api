@@ -1,10 +1,7 @@
 package yan.zubritskiy.ipapi.ipgeodata.repo
 
 import yan.zubritskiy.ipapi.core.Result
-import yan.zubritskiy.ipapi.core.mapOnSuccess
 import yan.zubritskiy.ipapi.ipgeodata.network.RemoteData
-import yan.zubritskiy.ipapi.ipgeodata.repo.mapper.GeoDataMapper
-import yan.zubritskiy.ipapi.ipgeodata.repo.model.IpGeoData
 
 private val allFields = listOf(
     "status",
@@ -35,10 +32,7 @@ private val allFields = listOf(
 )
 
 class IpGeoDataRepositoryImpl(
-    private val remoteData: RemoteData,
-    private val mapper: GeoDataMapper
+    private val remoteData: RemoteData
 ) : IpGeoDataRepository {
-    override suspend fun getGeoData(ip: String): Result<IpGeoData> = remoteData.getGeoData(ip, allFields).mapOnSuccess {
-        mapper.from(it)
-    }
+    override suspend fun getGeoData(ip: String): Result<Map<String, Any>> = remoteData.getGeoData(ip, allFields)
 }
