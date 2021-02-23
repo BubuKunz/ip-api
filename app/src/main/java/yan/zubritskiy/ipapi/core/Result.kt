@@ -17,10 +17,21 @@ sealed class Result<out R> {
     }
 }
 
+inline fun <T, R> Result<T>.map(map: (Result<T>) -> Result<R>): Result<R> {
+    return map(this)
+}
+
 inline fun <T, R> Result<T>.mapOnSuccess(map: (T) -> R): Result<R> {
     return if (this is Result.Success) {
         Result.Success(this.data?.let { map(it) })
     } else this as Result<R>
+}
+
+inline fun <T> Result<T>.onSuccessNotNull(onSuccess: (T) -> Unit): Result<T> {
+    if (this is Result.Success && data != null) {
+        onSuccess(data)
+    }
+    return this
 }
 
 abstract class BaseError(message: String = "") : Throwable(message)

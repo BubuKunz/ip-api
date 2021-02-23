@@ -3,6 +3,21 @@ plugins {
     id 'kotlin-android'
 }
 
+def getConfigurationProperty = { configuration ->
+    def configurationPropertyValue = ""
+    File configurationPropsFile = file('configuration.properties')
+    Properties configurationProps = new Properties()
+    try {
+        if (configurationPropsFile.exists() && configurationPropsFile.canRead()) {
+            configurationProps.load(new FileInputStream(configurationPropsFile))
+            configurationPropertyValue = configurationProps[configuration].toString()
+        }
+    } catch (e) {
+        logger.debug(e.getLocalizedMessage())
+    }
+    return configurationPropertyValue
+}
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
@@ -14,8 +29,11 @@ android {
         versionCode 1
         versionName "1.0"
 
+        buildConfigField 'String', 'BASE_URL', getConfigurationProperty('BASE_URL')
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
 
     buildTypes {
         release {
@@ -30,6 +48,9 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
@@ -39,16 +60,25 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.3.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-
+    implementation "androidx.lifecycle:lifecycle-common-java8:${versions.lifecycle}"
 
     // Kotlin Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.coroutine}"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:${versions.coroutine}"
 
+    // Koin for Android
+    implementation "org.koin:koin-android:${versions.koin}"
+    implementation "org.koin:koin-androidx-scope:${versions.koin}"
+    implementation "org.koin:koin-androidx-viewmodel:${versions.koin}"
+
     // Retrofit
-    implementation "com.squareup.retrofit2:retrofit:2.9.0"
+    implementation "com.squareup.retrofit2:retrofit:${versions.retrofit}"
+    implementation "com.squareup.retrofit2:converter-moshi:${versions.retrofit}"
     implementation "com.squareup.moshi:moshi-kotlin:1.11.0"
     implementation 'com.squareup.okhttp3:logging-interceptor:4.9.1'
+
+    // view-libraries
+    implementation 'com.github.Ferfalk:SimpleSearchView:0.1.6'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
