@@ -18,6 +18,21 @@ fun FragmentManager.addFragment(
         .commit()
 }
 
+inline fun <reified T : Fragment> FragmentManager.addFragmentSafe(
+    @IdRes container: Int,
+    create: () -> T,
+    tag: String = T::class.java.name,
+    addToBackStack: Boolean = true
+): Fragment {
+    val tagFragment = findFragmentByTag(tag)
+    if (tagFragment != null) {
+        return tagFragment
+    }
+    val newFragment = create()
+    addFragment(container, newFragment, tag, addToBackStack)
+    return newFragment
+}
+
 inline fun <reified T : Fragment> FragmentManager.findByTag(tag: String = T::class.java.name): T? =
     findFragmentByTag(tag) as? T
 

@@ -1,6 +1,7 @@
 package yan.zubritskiy.ipapi.ipgeodata.ui
 
 import android.view.MenuItem
+import androidx.core.view.isVisible
 import com.ferfalk.simplesearchview.SimpleSearchView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import yan.zubritskiy.ipapi.R
@@ -8,7 +9,6 @@ import yan.zubritskiy.ipapi.coreui.BaseFragment
 import yan.zubritskiy.ipapi.coreui.viewBinding
 import yan.zubritskiy.ipapi.databinding.FragmentIpGeodataSearchBinding
 import yan.zubritskiy.ipapi.ipgeodata.ui.viewmodel.IpGeoDataSearchViewModel
-
 
 class IpGeoDataSearchFragment : BaseFragment(R.layout.fragment_ip_geodata_search) {
 
@@ -37,8 +37,12 @@ class IpGeoDataSearchFragment : BaseFragment(R.layout.fragment_ip_geodata_search
     }
 
     override fun setupObservers() = with(viewModel) {
+        handleBaseViewModelEvents(this)
         geoDataFormatted.observe(viewLifecycleOwner) {
             binding.resultText.text = it
+        }
+        searching.observe(viewLifecycleOwner) {
+            binding.progressBar.isVisible = it
         }
     }
 

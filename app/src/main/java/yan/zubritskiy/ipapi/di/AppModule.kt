@@ -15,6 +15,7 @@ import yan.zubritskiy.ipapi.core.LoggerImpl
 import yan.zubritskiy.ipapi.corenetwork.NetworkConnectionManager
 import yan.zubritskiy.ipapi.corenetwork.NetworkConnectionManagerImpl
 import yan.zubritskiy.ipapi.coreui.MainFlowNavigator
+import yan.zubritskiy.ipapi.ipgeodata.domain.SearchGeoDataUseCase
 import yan.zubritskiy.ipapi.ipgeodata.network.ApiService
 import yan.zubritskiy.ipapi.ipgeodata.network.RemoteData
 import yan.zubritskiy.ipapi.ipgeodata.network.RemoteDataImpl
@@ -58,6 +59,7 @@ val coreNetworkModule = module {
 val ipGeoDataModule = module {
     factory<ApiService> { createService() }
     factory<RemoteData> { RemoteDataImpl(get(), get(), get()) }
+    factory { SearchGeoDataUseCase(get()) }
     single<IpGeoDataRepository> { IpGeoDataRepositoryImpl(get()) }
     viewModel { IpGeoDataSearchViewModel(get()) }
 }
