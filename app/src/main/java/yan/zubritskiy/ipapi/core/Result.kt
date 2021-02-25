@@ -17,14 +17,19 @@ sealed class Result<out R> {
     }
 }
 
-inline fun <T, R> Result<T>.map(map: (Result<T>) -> Result<R>): Result<R> {
-    return map(this)
+inline fun <T, R> Result<T>.mapSuccessNotNull(map: (T) -> R): Result<R> {
+    return when (this) {
+        is ApiError -> this
+        is ApiSuccess -> {
+            if (data != null) ApiSuccess(map(data))
+            else ApiError(IllegalArgumentException("unexpected empty body"))
+        }
+    }
 }
 
-inline fun <T, R> Result<T>.mapOnSuccess(map: (T) -> R): Result<R> {
-    return if (this is Result.Success) {
-        Result.Success(this.data?.let { map(it) })
-    } else this as Result<R>
+inline fun <T> Result<T>.onAny(onAny: (Result<T>) -> Unit): Result<T> {
+    onAny(this)
+    return this
 }
 
 inline fun <T> Result<T>.onSuccessNotNull(onSuccess: (T) -> Unit): Result<T> {
