@@ -7,7 +7,16 @@ typealias ApiSuccess<T> = Result.Success<T>
 sealed class Result<out R> {
 
     data class Success<out R>(val data: R?) : Result<R>()
-    data class Error(val error: Throwable) : Result<Nothing>()
+    data class Error(val error: Throwable) : Result<Nothing>() {
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (other?.javaClass != javaClass) return false
+
+            other as Error
+            if (error.javaClass != other.error.javaClass) return false
+            return error.message == other.error.message
+        }
+    }
 
     override fun toString(): String {
         return when (this) {
